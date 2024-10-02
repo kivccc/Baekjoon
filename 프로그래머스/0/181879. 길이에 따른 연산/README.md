@@ -1,10 +1,10 @@
 # [level 0] 길이에 따른 연산 - 181879 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181879) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181879?language=java) 
 
 ### 성능 요약
 
-메모리: 10.1 MB, 시간: 0.00 ms
+메모리: 71.7 MB, 시간: 2.44 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 08월 23일 02:34:09
+2024년 10월 03일 03:59:29
 
 ### 문제 설명
 
