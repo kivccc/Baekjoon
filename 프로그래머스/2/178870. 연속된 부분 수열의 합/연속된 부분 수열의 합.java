@@ -8,20 +8,19 @@ class Solution {
         int[] answer=new int[2];
         
         while(true){
-            if(sum>=k){
-                if(sum==k && idxr-idxl<len){
-                    len=idxr-idxl;
-                    answer[0]=idxl;
-                    answer[1]=idxr-1;
-                }
-                sum-=sequence[idxl++];
-            }
-            else{
+            if(sum<k){
                 if(idxr==sequence.length)
                     break;
                 sum+=sequence[idxr++];
-            }   
-            
+            }
+            else{
+                if(sum==k && len>idxr-idxl){
+                    answer[0]=idxl;
+                    answer[1]=idxr-1;
+                    len=idxr-idxl; 
+                }
+                sum-=sequence[idxl++];
+            }
         }
         return answer;
     }
