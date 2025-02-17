@@ -10,10 +10,11 @@ public class Main {
             arr[i]=Integer.parseInt(br.readLine());
         }
         Arrays.sort(arr);
-        for(int i:arr){
-            bw.write(Integer.toString(i));
-            bw.write("\n");                   
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) {
+            sb.append(i).append("\n"); 
         }
+        bw.write(sb.toString()); 
         bw.flush();
 	}
 }
