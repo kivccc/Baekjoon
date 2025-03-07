@@ -27,7 +27,6 @@ public class Main {
             }
         }
         System.out.println(count);
-        //StringTokenizer st=new StringTokenizer(br.readLine());
         //int N=Integer.parseInt(st.nextToken());
         //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
