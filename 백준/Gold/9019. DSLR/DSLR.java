@@ -11,17 +11,33 @@ public class Main {
             Deque<String[]> q=new ArrayDeque<>();
             boolean[] mem=new boolean[10000];
             q.add(new String[]{Integer.toString(A),""});
+            mem[A]=true;
             while(!q.isEmpty()){
                 String[]val=q.poll();
                 int num=Integer.parseInt(val[0]);
                 if(num==B){
-                    System.out.println(val[1]);
-                    break;
+                    
                 }
                 int d=getD(num);
+                if(d==B){
+                    System.out.println(val[1]+"D");
+                    break;
+                }
                 int s=getS(num);
+                if(s==B){
+                    System.out.println(val[1]+"S");
+                    break;
+                }
                 int l=getL(num);
+                if(l==B){
+                    System.out.println(val[1]+"L");
+                    break;
+                }                            
                 int r=getR(num);
+                if(r==B){
+                    System.out.println(val[1]+"R");
+                    break;
+                }
                 
                 if(mem[d]==false){
                     q.add(new String[]{Integer.toString(d),val[1]+"D"});
