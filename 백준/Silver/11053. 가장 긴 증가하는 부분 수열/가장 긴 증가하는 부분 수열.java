@@ -9,12 +9,12 @@ public class Main {
         int[] mem=new int[N];
         for(int i=0;i<N;i++){
             arr[i]=Integer.parseInt(st.nextToken());
-        }
-        for(int i=0;i<N;i++){
             mem[i]=1;
+        }
+        for(int i=1;i<N;i++){
             for(int j=0;j<i;j++){
-                if(arr[j]<arr[i] && mem[i]<mem[j]+1)
-                    mem[i]=mem[j]+1;
+                if(arr[j]<arr[i])
+                    mem[i]=Math.max(mem[i],mem[j]+1);
             }
         }
         int max=0;
