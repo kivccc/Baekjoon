@@ -2,34 +2,42 @@ import java.util.*;
 import java.io.*;
 public class Main {
     public static class Node{
-        public int index;
-        public int cost;
-        public Node(int index,int cost){
-            this.index=index;
-            this.cost=cost;
+        int to;
+        int weight;
+        public Node(int to,int weight){
+            this.to=to;
+            this.weight=weight;
         }
     }
-    public static ArrayList<Node>[] graph;
-    public static int[] dist;
     public static int V;
+    public static int E;
+    public static int start;
+    public static int[] dist;
+    public static ArrayList<Node>[] graph;
 	public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         StringTokenizer st=new StringTokenizer(br.readLine());
-        V=Integer.parseInt(st.nextToken());    // 정점의 개수 1 ~ V 번 
-        int E=Integer.parseInt(st.nextToken());    // 간선의 개수
-        int start=Integer.parseInt(br.readLine());    //시작 정점
+        V=Integer.parseInt(st.nextToken());        
+        E=Integer.parseInt(st.nextToken());    
+        dist=new int[V+1];
+        for(int i=0;i<=V;i++)
+            dist[i]=Integer.MAX_VALUE;
         graph=new ArrayList[V+1];
         for(int i=0;i<V;i++){
             graph[i+1]=new ArrayList<>();
         }
+        start=Integer.parseInt(br.readLine());
+        
         for(int i=0;i<E;i++){
             st=new StringTokenizer(br.readLine());
-            int u=Integer.parseInt(st.nextToken());
-            int v=Integer.parseInt(st.nextToken());
-            int w=Integer.parseInt(st.nextToken());
-            graph[u].add(new Node(v,w));
+            int from=Integer.parseInt(st.nextToken());        
+            int to=Integer.parseInt(st.nextToken());        
+            int weight=Integer.parseInt(st.nextToken());        
+            graph[from].add(new Node(to,weight));
         }
-        dijk(start);
+        dijk();
         StringBuilder sb=new StringBuilder();
         for(int i=1;i<=V;i++){
             int val=dist[i];
@@ -44,31 +52,24 @@ public class Main {
         //int N=sc.nextInt();
         //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
-    
-    public static void dijk(int start){
-        boolean[] visit=new boolean[V+1]; //방문 체크용
-        dist=new int[V+1];
-        Arrays.fill(dist,Integer.MAX_VALUE);
+    public static void dijk(){
+        PriorityQueue<Node> q=new PriorityQueue<>((e1,e2)->{
+            return Integer.compare(e1.weight,e2.weight);
+        });
+        
+        q.add(new Node(start,0));
         dist[start]=0;
         
-        PriorityQueue<Node> pq=new PriorityQueue<>((e1,e2)->{
-            return Integer.compare(e1.cost,e2.cost);
-        });
-        pq.add(new Node(start,0));
-        
-        while(!pq.isEmpty()){
-            Node node=pq.poll();
-            int curidx=node.index;
+        while(!q.isEmpty()){
+            Node cur=q.poll();
+            int now=cur.to;
+            int nowdist=cur.weight;
+            if(nowdist>dist[now]) continue;
             
-            if(visit[curidx]) continue;
-            visit[curidx]=true;
-            
-            for(Node nextnode:graph[curidx]){
-                int nextidx=nextnode.index;
-                int nextcost=nextnode.cost;
-                if(dist[nextidx]>dist[curidx]+nextcost){
-                    dist[nextidx]=dist[curidx]+nextcost;
-                    pq.add(new Node(nextidx,dist[nextidx]));
+            for(Node next:graph[now]){
+                if(dist[next.to]>dist[now]+next.weight){
+                    dist[next.to]=dist[now]+next.weight;
+                    q.add(new Node(next.to,dist[next.to]));
                 }
             }
         }
