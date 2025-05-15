@@ -2,77 +2,81 @@ import java.util.*;
 import java.io.*;
 public class Main {
     public static class Node{
-        String val;
-        Node left;
+        char val;
         Node right;
-        public Node(String val){
-            this.val=val;
-            left=null;
+        Node left;
+        public Node(char c){
+            val=c;
             right=null;
+            left=null;
         }
     }
     public static class Graph{
-        HashMap<String,Node> map=new HashMap<>();
+        HashMap<Character,Node> map=new HashMap<>();
         Node root;
-        public void add(String top,String left,String right){
-            map.putIfAbsent(top,new Node(top));
-            if(!left.equals("."))
-                map.putIfAbsent(left,new Node(left));
-            if(!right.equals("."))
-                map.putIfAbsent(right,new Node(right));
+        public void add(char top,char left,char right){
+            if(left!='.' && !map.containsKey(left))
+                map.put(left,new Node(left));
+            if( right!='.' && !map.containsKey(right))
+                map.put(right,new Node(right));
+            if(!map.containsKey(top))
+                map.put(top,new Node(top));
+            Node root=map.get(top);
+            root.left=map.get(left);
+            root.right=map.get(right);
+        }
+        StringBuilder sb=new StringBuilder();
+        public  void front(Node node){
+            if(node==null) return;
+            sb.append(node.val);
+            front(node.left);
+            front(node.right);
+        }
+        public  void mid(Node node){
+            if(node==null) return;
             
-            Node parent=map.get(top);
-            Node l=map.get(left);
-            Node r=map.get(right);
-            parent.left=l;
-            parent.right=r;
+            mid(node.left);
+            sb.append(node.val);
+            mid(node.right);
         }
-        public void front(Node node) {
-            if (node != null) {
-                System.out.print(node.val);
-                front(node.left);
-                front(node.right);
-            }
+        public  void rear(Node node){
+            if(node==null) return;
+            
+            rear(node.left);
+            rear(node.right);
+            sb.append(node.val);
         }
-        public void mid(Node node) {
-            if (node != null) {
-                mid(node.left);
-                System.out.print(node.val);
-                mid(node.right);
-            }
-        }
-        public void back(Node node) {
-            if (node != null) {
-                back(node.left);
-                back(node.right);
-                System.out.print(node.val);
-            }
-        }                        
-        public void print() {
+        
+        public  void print(){
             front(root);
-            System.out.println();
+            System.out.println(sb);
+            sb.setLength(0);
             mid(root);
-            System.out.println();
-            back(root);
-            System.out.println();
+            System.out.println(sb);
+            sb.setLength(0);
+            rear(root);
+            System.out.println(sb);
+            sb.setLength(0);
         }
     }
 	public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N=Integer.parseInt(br.readLine());
-        Graph g=new Graph();
-        g.map.put("A",new Node("A"));
-        g.root=g.map.get("A");
+        Graph graph=new Graph();
+        //int N=Integer.parseInt(st.nextToken());        
         for(int i=0;i<N;i++){
             StringTokenizer st=new StringTokenizer(br.readLine());
-            String top=st.nextToken();
-            String left=st.nextToken();
-            String right=st.nextToken();
-            g.add(top,left,right);
+            char top=st.nextToken().charAt(0);
+            char left=st.nextToken().charAt(0);
+            char right=st.nextToken().charAt(0);
+            graph.add(top,left,right);
         }
-        g.print();
-        //StringTokenizer st=new StringTokenizer(br.readLine());
-        //int N=Integer.parseInt(st.nextToken());
+        graph.root=graph.map.get('A');
+        graph.print();
+        //
+        //Scanner sc=new Scanner(System.in);
+        //int N=sc.nextInt();
         //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
 }
