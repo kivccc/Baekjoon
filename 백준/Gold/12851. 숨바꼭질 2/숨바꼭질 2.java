@@ -1,56 +1,59 @@
 import java.util.*;
 import java.io.*;
 public class Main {
-    public static int N;
-    public static int K;
-    public static int len;
-    public static int[] dist;
-    public static int[] count;
 	public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st=new StringTokenizer(br.readLine());
-        N=Integer.parseInt(st.nextToken());        
-        K=Integer.parseInt(st.nextToken());        
-        len=Math.max(N,K)*2;
-        dist=new int[len];
-        count=new int[len];
-        for(int i=0;i<len;i++)
-            dist[i]=-1;
-        bfs(N);
-        System.out.println(dist[K]);
-        System.out.println(count[K]);
+        int n=Integer.parseInt(st.nextToken());        
+        int k=Integer.parseInt(st.nextToken());     
+        int big=Math.max(n,k);
+        int[] visit=new int[2*big+1];
+        Arrays.fill(visit, -1); 
+        int[] much=new int[2*big+1];
+        Deque<int[]> q=new ArrayDeque<>();
+        q.add(new int[]{n,0});
+        much[n]=1;
+        visit[n]=0;
+        while(!q.isEmpty()){
+            int[]val=q.poll();
+            int pos=val[0];
+            int time=val[1];
+            for(int i=0;i<3;i++){
+                int nextpos=getnextpos(pos,i);
+                if(nextpos<0 || 2*big<nextpos) continue;
+                if(visit[nextpos]==-1){ //첫방문
+                    visit[nextpos]=time+1;
+                    much[nextpos]=much[pos];
+                    q.add(new int[]{nextpos,time+1});
+                }
+                else if(visit[nextpos]==time+1){ //첫방문은 아닌데 동일시간도착이면
+                    much[nextpos]+=much[pos];
+                }
+            }
+        }
+        System.out.println(visit[k]);
+        System.out.println(much[k]);
+        /*
+        for(int i=0;i<N;i++){
+        
+        }
+        */
+        
+
         //int N=Integer.parseInt(br.readLine());
         //Scanner sc=new Scanner(System.in);
         //int N=sc.nextInt();
         //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
     
-    public static void bfs(int start){
-        Deque<Integer> q=new ArrayDeque<>();
-        q.add(start);
-        dist[start]=0;
-        count[start]=1;
-        
-        while(!q.isEmpty()){
-            int place=q.poll();
-            int nextplace=place+1;
-            check(place,nextplace,q);
-            nextplace=place-1;
-            check(place,nextplace,q);
-            nextplace=place*2;
-            check(place,nextplace,q);
-        }
-    }
-    public static void check(int from,int to,Deque q){
-        if(to<0 || len<=to)    return;
-        if(dist[to]==-1){
-            dist[to]=dist[from]+1;
-            count[to]=count[from];
-            q.add(to);
-        }
-        else if(dist[to]==dist[from]+1){
-            count[to]+=count[from];
-        }
-        return;
+    public static int getnextpos(int pos,int idx){
+        if(idx==0)
+            return pos+1;
+        if(idx==1)
+            return pos-1;
+        if(idx==2)
+            return pos*2;
+        return 0;
     }
 }
