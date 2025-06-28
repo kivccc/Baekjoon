@@ -25,7 +25,7 @@ public class Main {
             int v=Integer.parseInt(st.nextToken());
             pq.add(new int[]{m,v});
         }
-        TreeMap<Integer,Integer> bagmap=new TreeMap<>();
+        TreeMap <Integer,Integer> bagmap=new TreeMap<>();
         for(int i=0;i<k;i++){
             int m=Integer.parseInt(br.readLine());
             bagmap.put(m,bagmap.getOrDefault(m,0)+1);
