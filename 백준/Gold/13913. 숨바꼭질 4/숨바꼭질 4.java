@@ -27,8 +27,10 @@ public class Main {
                     before=mem[before];
                 }
                 answer.add(N);
+                StringBuilder sb=new StringBuilder();
                 for(int i=answer.size()-1;i>=0;i--)
-                    System.out.print(answer.get(i)+" ");
+                    sb.append(answer.get(i)).append(" ");
+                System.out.println(sb);
                 break;
             }
             else{
