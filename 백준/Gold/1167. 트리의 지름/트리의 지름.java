@@ -1,64 +1,69 @@
 import java.util.*;
 import java.io.*;
 public class Main {
-    public static class Node{
+    static class Node{
         int idx;
         int dist;
-        public Node(int idx,int dist){
-            this.idx=idx;
-            this.dist=dist;
+        Node(int idx,int dist){
+            this.idx = idx;
+            this.dist = dist;
         }
     }
-    public static int V;
-    public static ArrayList<Node>[] graph;
-    public static boolean[] visit;
-    public static int maxdist=0;
-    public static int startnode=0;
+    static ArrayList<Node>[] graph;
+    static boolean[] visited;
+    static int v;
+    static int farNode; 
+    static int maxDist; 
 	public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        V=Integer.parseInt(br.readLine());
-        graph=new ArrayList[V+1];
-        for(int i=1;i<=V;i++){
+        v = Integer.parseInt(br.readLine());
+        graph = new ArrayList[v+1];
+        for(int i=0;i<=v;i++)
             graph[i]=new ArrayList<Node>();
-        }
-        for(int i=1;i<=V;i++){
-            StringTokenizer st=new StringTokenizer(br.readLine());
-            int nodenum=Integer.parseInt(st.nextToken());
-            int to;
-            while((to=Integer.parseInt(st.nextToken()))!=-1){
-                int dist=Integer.parseInt(st.nextToken());
-                graph[nodenum].add(new Node(to,dist));
+        
+        
+        
+        for(int i=0;i<v;i++){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int from = Integer.parseInt(st.nextToken());
+            while(true){
+                int to = Integer.parseInt(st.nextToken());
+                if(to == -1)
+                    break;
+                int dist = Integer.parseInt(st.nextToken());
+                graph[from].add(new Node(to,dist));
             }
         }
-        /*
-        for(int i=1;i<=V;i++){
-            for(Node node:graph[i])
-                System.out.println(node.idx+" "+node.dist);
-        } 
-        */
-        visit=new boolean[V+1];
+
+        visited = new boolean[v+1];
+        maxDist = 0;
         dfs(1,0);
-        visit=new boolean[V+1];
-        maxdist=0;
-        dfs(startnode,0);
-        System.out.println(maxdist);
-        //int N=Integer.parseInt(br.readLine());
-        //Scanner sc=new Scanner(System.in);
-        //int N=sc.nextInt();
+        
+        visited = new boolean[v+1];
+        maxDist = 0;
+        dfs(farNode,0);
+        System.out.println(maxDist);
+        
+        //
+        //Scanner sc = new Scanner(System.in);
+        //int n = sc.nextInt();
         //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
     
-    public static void dfs(int current,int distance){
-        visit[current]=true;
-        if(maxdist<distance){
-            maxdist=distance;
-            startnode=current;
+    
+    
+    static void dfs(int idx,int dist){
+        visited[idx]=true;
+        if (dist > maxDist) {
+            maxDist = dist;
+            farNode = idx;
         }
-        for(Node node:graph[current]){
-            if(!visit[node.idx]){
-                dfs(node.idx,distance+node.dist);
+        for(Node next:graph[idx]){
+            if(!visited[next.idx]){
+                dfs(next.idx,dist+next.dist);
             }
         }
-          
+        
     }
 }
